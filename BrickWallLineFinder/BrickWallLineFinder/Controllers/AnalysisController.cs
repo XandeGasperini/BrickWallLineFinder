@@ -13,34 +13,40 @@ namespace BrickWallLineFinder.Controllers
     public class AnalysisController
     {
         [HttpGet]
-        public dynamic Get(int rows, int bricks, int rowsInc, int bricksInc)
+        public dynamic Get(int rows, int bricks, int rowsInc, int bricksInc, int average)
         {
             BrickWallGenerator generator = new BrickWallGenerator();
 
             BrickWall wall = new BrickWall();
 
-            List<int> millList = new List<int>();
-            List<int> hitsList = new List<int>();
+            List<float> millList = new List<float>();
+            List<float> hitsList = new List<float>();
             SumAndContStrategy strategy = new SumAndContStrategy();
-
-            int bricksCount = bricksInc;
-            int rowsCount = rowsInc;
 
             long tick1 = 0;
             long tick2 = 0;
 
+
+            int bricksCount = bricksInc;
+            int rowsCount = rowsInc;
+
             while (bricksCount < bricks || rowsCount < rows)
             {
-                //Gera uma BrickWall para ser trabalhada
-                wall = generator.GenerateBrickWall(rowsCount, bricksCount);
+                List<int> millListTemp = new List<int>();
+                List<int> hitsListTemp = new List<int>();
 
-                tick1 = DateTime.Now.Ticks;
-                //Descobre a linha que menos corta tijolos
-                hitsList.Add(strategy.GetOptimizedLine(wall));
-                tick2 = DateTime.Now.Ticks;
+                for (int i = 0; i < average; i++)
+                {
+                    //Gera uma BrickWall para ser trabalhada
+                    wall = generator.GenerateBrickWall(rowsCount, bricksCount);
 
-                millList.Add(Convert.ToInt32(tick2 - tick1));
+                    tick1 = DateTime.Now.Ticks;
+                    //Descobre a linha que menos corta tijolos
+                    hitsListTemp.Add(strategy.GetOptimizedLine(wall));
+                    tick2 = DateTime.Now.Ticks;
 
+                    millListTemp.Add(Convert.ToInt32(tick2 - tick1));
+                }
                 if (rowsCount < rows)
                 {
                     rowsCount += rowsInc;
@@ -50,9 +56,12 @@ namespace BrickWallLineFinder.Controllers
                 {
                     bricksCount += bricksInc;
                 }
+
+                hitsList.Add(hitsListTemp.Sum() / average);
+                millList.Add(millListTemp.Sum() / average);
             }
 
-            return new { millis = millList.ToArray() , hits = hitsList.ToArray()};
+            return new { millis = millList.ToArray(), hits = hitsList.ToArray() };
         }
     }
 }

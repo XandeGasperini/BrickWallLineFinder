@@ -41,10 +41,11 @@ const useStyles = makeStyles({
 })
 
 export default function AlgorithmAnalyser() {
-    const [bricks, setBricks] = useState({})
-    const [rows, setRows] = useState({})
-    const [bricksInc, setBricksInc] = useState({})
-    const [rowsInc, setRowsInc] = useState({})
+    const [bricks, setBricks] = useState(0)
+    const [rows, setRows] = useState(0)
+    const [bricksInc, setBricksInc] = useState(0)
+    const [rowsInc, setRowsInc] = useState(0)
+    const [average, setAverage] = useState(0)
     const [data, setData] = useState()
     const [loading, setLoading] = useState(0)
 
@@ -57,7 +58,8 @@ export default function AlgorithmAnalyser() {
                 bricks: bricks,
                 rows: rows,
                 bricksInc: bricksInc,
-                rowsInc: rowsInc
+                rowsInc: rowsInc,
+                average: average
             })
 
             console.log(response)
@@ -79,7 +81,7 @@ export default function AlgorithmAnalyser() {
         <>
             <Paper elevation={4} className={classes.paper}>
                 <Typography variant="h5">Análise</Typography>
-                <Typography className={classes.field} variant="subtitle1">Para obter uma análise, preencha com o numero de tijolos por linha, numero de linhas e o incremento de cada</Typography>
+                <Typography className={classes.field} variant="subtitle1">Para obter uma análise, preencha com o numero de tijolos por linha, numero de linhas, o incremento de cada e o número de amostras</Typography>
                 <TextField
                     className={classes.field}
                     label="Max Tijolos por linha"
@@ -103,6 +105,12 @@ export default function AlgorithmAnalyser() {
                     label="Incremento de linha"
                     variant="outlined"
                     onChange={(event) => { setRowsInc(event.target.value) }}
+                />
+                <TextField
+                    className={classes.field}
+                    label="Amostrar"
+                    variant="outlined"
+                    onChange={(event) => { setAverage(event.target.value) }}
                 />
                 <Button className={classes.button} variant="outlined" color="primary" onClick={getAlgorithAnalysis}>Obter análise</Button>
                 {
