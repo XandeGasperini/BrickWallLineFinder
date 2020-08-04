@@ -81,7 +81,7 @@ export default function AlgorithmAnalyser() {
         <>
             <Paper elevation={4} className={classes.paper}>
                 <Typography variant="h5">Análise</Typography>
-                <Typography className={classes.field} variant="subtitle1">Para obter uma análise, preencha com o numero de tijolos por linha, numero de linhas, o incremento de cada e o número de amostras</Typography>
+                <Typography className={classes.field} variant="subtitle1">Para obter uma análise, preencha com o número de tijolos por linha, número de linhas, o incremento de cada e o número de amostras</Typography>
                 <TextField
                     className={classes.field}
                     label="Max Tijolos por linha"
