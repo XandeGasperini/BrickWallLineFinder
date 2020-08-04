@@ -12,6 +12,8 @@ namespace BrickWallLineFinder.Controllers
     [Route("[controller]")]
     public class AnalysisController
     {
+        //Realiza uma análise do tempo de execução do método "GetOptimizedLine" com diversos tamanhos de BrickWall, com os limites, indemento
+        //e quantidade de amostrar especificados
         [HttpGet]
         public dynamic Get(int rows, int bricks, int rowsInc, int bricksInc, int average)
         {
